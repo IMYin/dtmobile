@@ -1,0 +1,199 @@
+package cn.com.dtmobile.hadoop.biz.exception.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import cn.com.dtmobile.hadoop.biz.exception.constants.ExceptionConstnts;
+import cn.com.dtmobile.hadoop.biz.exception.constants.InterfaceConstants;
+import cn.com.dtmobile.hadoop.biz.exception.model.MwExceptionMessage;
+import cn.com.dtmobile.hadoop.constants.TablesConstants;
+import cn.com.dtmobile.hadoop.model.LteMroSource;
+import cn.com.dtmobile.hadoop.model.MwXdr;
+
+public class IMSRegistFailAnalyService {
+	MwExceptionMessage mwExceptionMessage = null;
+
+	public List<MwExceptionMessage> imsRegistFailAnalyService(
+			List<MwXdr> mwXdrList, List<LteMroSource> lteMroSourceList,
+			Map<String, String> cellXdrMap, Map<String, String> exceptionMap,
+			Map<String, String> lteCellMap) {
+		List<MwExceptionMessage> mwExceptionMessageList = new ArrayList<MwExceptionMessage>();
+		List<MwXdr> iscList = new ArrayList<MwXdr>();
+		if (mwXdrList.size() > 0) {
+
+			for (MwXdr mwXdr : mwXdrList) {
+				if (mwXdr.getCommXdr().getInterfaces() == 18) {
+					iscList.add(mwXdr);
+				}
+			}
+			// enter the interface 14
+			for (MwXdr mwXdr : mwXdrList) {
+				if (mwXdr.getCommXdr().getInterfaces() == 14
+						&& ExceptionConstnts.IMS_REG_FAIL == mwXdr.getEtype()) {
+					// step 1
+					mwExceptionMessage = this.stepOne(mwXdr, iscList,
+							lteMroSourceList, cellXdrMap, exceptionMap,
+							lteCellMap);
+					if (mwExceptionMessage != null) {
+						mwExceptionMessageList.add(mwExceptionMessage);
+						continue;
+					}
+				} else {
+					mwExceptionMessageList.add(new MwExceptionMessage(mwXdr,
+							mwXdr.getResponse_code(), InterfaceConstants.SIP,
+							exceptionMap, lteCellMap));
+				}
+			}
+		}
+		return mwExceptionMessageList;
+	}
+
+	public MwExceptionMessage stepOne(MwXdr mwXdr, List<MwXdr> iscList,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> cellXdrMap, Map<String, String> exceptionMap,
+			Map<String, String> lteCellMap) {
+		if ("401".equals(mwXdr.getResponse_code())) {
+			return new MwExceptionMessage(mwXdr, mwXdr.getResponse_code(),
+					InterfaceConstants.SIP, exceptionMap, lteCellMap);
+		} else {
+			// step 2
+			if ("408".equals(mwXdr.getResponse_code())
+					|| "480".equals(mwXdr.getResponse_code())
+					|| "500".equals(mwXdr.getResponse_code())
+					|| "503".equals(mwXdr.getResponse_code())
+					|| "487".equals(mwXdr.getResponse_code())) {
+				// step 3
+				this.stepThree(mwXdr, iscList, lteMroSourceList, cellXdrMap,
+						exceptionMap, lteCellMap);
+			} else {
+				return new MwExceptionMessage(mwXdr, mwXdr.getResponse_code(),
+						InterfaceConstants.SIP, exceptionMap, lteCellMap);
+			}
+		}
+		return mwExceptionMessage;
+	}
+
+	public MwExceptionMessage stepThree(MwXdr mwXdr, List<MwXdr> iscList,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> cellXdrMap, Map<String, String> exceptionMap,
+			Map<String, String> lteCellMap) {
+		for (MwXdr isc : iscList) {
+			if (isc.getCommXdr().getInterfaces() == 18
+					&& isc.getProcedurestarttime() >= mwXdr
+							.getProcedurestarttime() - 1000
+					&& isc.getProcedurestarttime() <= mwXdr
+							.getProcedurestarttime() + 5000) {
+				if (!"0".equals(isc.getProcedurestatus())) {
+					return new MwExceptionMessage(mwXdr,
+							mwXdr.getResponse_code(), InterfaceConstants.SIP,
+							exceptionMap, lteCellMap);
+				} else {
+					// step 4
+					this.stepFour(mwXdr, lteMroSourceList, cellXdrMap,
+							exceptionMap, lteCellMap);
+				}
+			}
+		}
+		return mwExceptionMessage;
+	}
+
+	public MwExceptionMessage stepFour(MwXdr mwXdr,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> cellXdrMap, Map<String, String> exceptionMap,
+			Map<String, String> lteCellMap) {
+		List<LteMroSource> ueMr1List = new ArrayList<LteMroSource>();
+		List<LteMroSource> ueMr6List = new ArrayList<LteMroSource>();
+		for (LteMroSource lteMroSource : lteMroSourceList) {
+			if (lteMroSource.getStarttime() >= mwXdr.getProcedurestarttime() - 20000
+					&& lteMroSource.getStarttime() <= mwXdr
+							.getProcedurestarttime() + 1000
+					&& lteMroSource.getCellid().equals(mwXdr.getSource_eci())
+					&& lteMroSource.getVid() == 1) {
+				if (TablesConstants.TABLE_UE_MR_XDR_FLAG.equals(lteMroSource
+						.getMrname())) {
+					if (lteMroSource.getKpi1() != 0) {
+						ueMr1List.add(lteMroSource);
+					} else if (lteMroSource.getKpi6() != 0) {
+						ueMr6List.add(lteMroSource);
+					}
+				}
+			}
+		}
+
+		if (ueMr1List.size() > 0
+				&& this.getMinKpi(mwXdr, ueMr1List).getKpi1() < 31) {
+			return new MwExceptionMessage(mwXdr, "1", InterfaceConstants.UU,
+					exceptionMap, lteCellMap);
+		} else {
+			double avg = this.getAvgKpi(mwXdr, cellXdrMap);
+			if (avg > 111) {
+				return new MwExceptionMessage(mwXdr, "2",
+						InterfaceConstants.UU, exceptionMap, lteCellMap);
+			} else {
+				if (ueMr6List.size() > 0) {
+					LteMroSource ue6MrSource = this.getMinKpi(mwXdr, ueMr6List);
+					if (ue6MrSource.getKpi6() < 25) {
+						if (ue6MrSource.getKpi8() >= 22) {
+							return new MwExceptionMessage(mwXdr, "3",
+									InterfaceConstants.UU, exceptionMap,
+									lteCellMap);
+						} else if (ue6MrSource.getKpi8() < 22) {
+							return new MwExceptionMessage(mwXdr, "4",
+									InterfaceConstants.UU, exceptionMap,
+									lteCellMap);
+						}
+					} else {
+						return new MwExceptionMessage(mwXdr,
+								mwXdr.getResponse_code(),
+								InterfaceConstants.SIP, exceptionMap,
+								lteCellMap);
+					}
+				}
+			}
+		}
+
+		return mwExceptionMessage;
+	}
+
+	public LteMroSource getMinKpi(MwXdr mwXdr,
+			List<LteMroSource> lteMroSourceList) {
+		Long minTime = Long.MAX_VALUE;
+		Long curTime = 0L;
+		Map<Long, LteMroSource> LteMroSourceMap = new HashMap<Long, LteMroSource>();
+		for (LteMroSource lteMroSource : lteMroSourceList) {
+			curTime = Math.abs(mwXdr.getProcedurestarttime()
+					- lteMroSource.getMeatime());
+			if (minTime > curTime) {
+				minTime = curTime;
+			}
+			LteMroSourceMap.put(minTime, lteMroSource);
+		}
+		return LteMroSourceMap.get(minTime);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public Double getAvgKpi(MwXdr mwXdr, Map<String, String> cellXdrMap) {
+		Long minTime = Long.MAX_VALUE;
+		Long curTime = 0L;
+		Iterator iter = cellXdrMap.entrySet().iterator();
+		Double kpiAvg = 0.0;
+		while (iter.hasNext()) {
+			Map.Entry entry = (Map.Entry) iter.next();
+			if (entry.getKey().equals(mwXdr.getSource_eci())) {
+				curTime = Math
+						.abs(mwXdr.getProcedurestarttime()
+								- Long.valueOf(entry.getValue().toString()
+										.split(",")[0]));
+				if (minTime > curTime) {
+					minTime = curTime;
+					kpiAvg = Double.valueOf(entry.getValue().toString()
+							.split(",")[1]);
+				}
+			}
+		}
+		return kpiAvg;
+	}
+}

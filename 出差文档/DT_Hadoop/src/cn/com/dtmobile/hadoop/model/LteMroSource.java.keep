@@ -1,0 +1,1295 @@
+package cn.com.dtmobile.hadoop.model;
+
+import cn.com.dtmobile.hadoop.util.DateUtils;
+import cn.com.dtmobile.hadoop.util.ParseUtils;
+import cn.com.dtmobile.hadoop.util.StringUtils;
+
+public class LteMroSource {
+	private String objectid;
+	private Long vid;
+	private String fileformatversion;
+	private long starttime;
+	private long endtime;
+	private Long period;
+	private Long enbid;
+	private String userlabel;
+	private String mrname;
+	private Long cellid;
+	private Long earfcn;
+	private Long subframenbr;
+	private Long prbnbr;
+	private Long mmeues1apid;
+	private Long mmegroupid;
+	private Long mmecode;
+	private Long meatime;
+	private String eventtype;
+	private Double gridcenterlongitude;
+	private Double gridcenterlatitude;
+	private Long kpi1;
+	private Long kpi2;
+	private Long kpi3;
+	private Long kpi4;
+	private Long kpi5;
+	private Long kpi6;
+	private Long kpi7;
+	private Long kpi8;
+	private Long kpi9;
+	private Long kpi10;
+	private Long kpi11;
+	private Long kpi12;
+	private Long kpi13;
+	private Long kpi14;
+	private Long kpi15;
+	private Long kpi16;
+	private Long kpi17;
+	private Long kpi18;
+	private Long kpi19;
+	private Long kpi20;
+	private Long kpi21;
+	private Long kpi22;
+	private Long kpi23;
+	private Long kpi24;
+	private Long kpi25;
+	private Long kpi26;
+	private Long kpi27;
+	private Long kpi28;
+	private Long kpi29;
+	private Long kpi30;
+	private Long kpi31;
+	private Long kpi32;
+	private Long kpi33;
+	private Long kpi34;
+	private Long kpi35;
+	private Long kpi36;
+	private Long kpi37;
+	private Long kpi38;
+	private Long kpi39;
+	private Long kpi40;
+	private Long kpi41;
+	private Long kpi42;
+	private Long kpi43;
+	private Long kpi44;
+	private Long kpi45;
+	private Long kpi46;
+	private Long kpi47;
+	private Long kpi48;
+	private Long kpi49;
+	private Long kpi50;
+	private Long kpi51;
+	private Long kpi52;
+	private Long kpi53;
+	private Long kpi54;
+	private Long kpi55;
+	private Long kpi56;
+	private Long kpi57;
+	private Long kpi58;
+	private Long kpi59;
+	private Long kpi60;
+	private Long kpi61;
+	private Long kpi62;
+	private Long kpi63;
+	private Long kpi64;
+	private Long kpi65;
+	private Long kpi66;
+	private Long kpi67;
+	private Long kpi68;
+	private Long kpi69;
+	private Long kpi70;
+	private Long kpi71;
+	private Long length;
+	private String city;
+	private Long xdrtype;
+	private Long interfaces;
+	private String xdrid;
+	private Long rat;
+	private String imsi;
+	private String imei;
+	private String msisdn;
+	private Long mrtype;
+	private Long neighborcellnumber;
+	private Long gsmneighborcellnumber;
+	private Long tdsneighborcellnumber;
+	private Long v_enb;
+	private Long mrtime;
+	
+	public static Long toLong(String str){
+		if (StringUtils.isNotEmpty(str)) {
+			return Long.valueOf(str);
+		}
+		return null;
+	}
+	public LteMroSource(String[] values) {
+		this.objectid = values[0];
+		this.vid = toLong(values[1]);
+		this.fileformatversion = values[2];
+		this.starttime = DateUtils.convertSecond(values[3]);
+		this.endtime = DateUtils.convertSecond(values[4]);
+		this.period = toLong(values[5]);
+		this.enbid = toLong(values[6]);
+		this.userlabel = values[7];
+		this.mrname = values[8];
+		this.cellid = toLong(values[9]);
+		this.earfcn = toLong(values[10]);
+		this.subframenbr = toLong(values[11]);
+		this.prbnbr = toLong(values[12]);
+		this.mmeues1apid = toLong(values[13]);
+		this.mmegroupid = toLong(values[14]);
+		this.mmecode = toLong(values[15]);
+		this.meatime = (long) DateUtils.convertSecond(values[16]);;
+		this.eventtype = values[17];
+		this.gridcenterlongitude = ParseUtils.parseDouble(values[18]);
+		this.gridcenterlatitude = ParseUtils.parseDouble(values[19]);
+		this.kpi1 = toLong(values[20]);
+		this.kpi2 = toLong(values[21]);
+		this.kpi3 = toLong(values[22]);
+		this.kpi4 = toLong(values[23]);
+		this.kpi5 = toLong(values[24]);
+		this.kpi6 = toLong(values[25]);
+		this.kpi7 = toLong(values[26]);
+		this.kpi8 = toLong(values[27]);
+		this.kpi9 = toLong(values[28]);
+		this.kpi10 = toLong(values[29]);
+		this.kpi11 = toLong(values[30]);
+		this.kpi12 = toLong(values[31]);
+		this.kpi13 = toLong(values[32]);
+		this.kpi14 = toLong(values[33]);
+		this.kpi15 = toLong(values[34]);
+		this.kpi16 = toLong(values[35]);
+		this.kpi17 = toLong(values[36]);
+		this.kpi18 = toLong(values[37]);
+		this.kpi19 = toLong(values[38]);
+		this.kpi20 = toLong(values[39]);
+		this.kpi21 = toLong(values[40]);
+		this.kpi22 = toLong(values[41]);
+		this.kpi23 = toLong(values[42]);
+		this.kpi24 = toLong(values[43]);
+		this.kpi25 = toLong(values[44]);
+		this.kpi26 = toLong(values[45]);
+		this.kpi27 = toLong(values[46]);
+		this.kpi28 = toLong(values[47]);
+		this.kpi29 = toLong(values[48]);
+		this.kpi30 = toLong(values[49]);
+		this.kpi31 = toLong(values[50]);
+		this.kpi32 = toLong(values[51]);
+		this.kpi33 = toLong(values[52]);
+		this.kpi34 = toLong(values[53]);
+		this.kpi35 = toLong(values[54]);
+		this.kpi36 = toLong(values[55]);
+		this.kpi37 = toLong(values[56]);
+		this.kpi38 = toLong(values[57]);
+		this.kpi39 = toLong(values[58]);
+		this.kpi40 = toLong(values[59]);
+		this.kpi41 = toLong(values[60]);
+		this.kpi42 = toLong(values[61]);
+		this.kpi43 = toLong(values[62]);
+		this.kpi44 = toLong(values[63]);
+		this.kpi45 = toLong(values[64]);
+		this.kpi46 = toLong(values[65]);
+		this.kpi47 = toLong(values[66]);
+		this.kpi48 = toLong(values[67]);
+		this.kpi49 = toLong(values[68]);
+		this.kpi50 = toLong(values[69]);
+		this.kpi51 = toLong(values[70]);
+		this.kpi52 = toLong(values[71]);
+		this.kpi53 = toLong(values[72]);
+		this.kpi54 = toLong(values[73]);
+		this.kpi55 = toLong(values[74]);
+		this.kpi56 = toLong(values[75]);
+		this.kpi57 = toLong(values[76]);
+		this.kpi58 = toLong(values[77]);
+		this.kpi59 = toLong(values[78]);
+		this.kpi60 = toLong(values[79]);
+		this.kpi61 = toLong(values[80]);
+		this.kpi62 = toLong(values[81]);
+		this.kpi63 = toLong(values[82]);
+		this.kpi64 = toLong(values[83]);
+		this.kpi65 = toLong(values[84]);
+		this.kpi66 = toLong(values[85]);
+		this.kpi67 = toLong(values[86]);
+		this.kpi68 = toLong(values[87]);
+		this.kpi69 = toLong(values[88]);
+		this.kpi70 = toLong(values[89]);
+		this.kpi71 = toLong(values[90]);
+		this.length = toLong(values[91]);
+		this.city = values[92];
+		this.xdrtype = toLong(values[93]);
+		this.interfaces = toLong(values[94]);
+		this.xdrid = values[95];
+		this.rat = toLong(values[96]);
+		this.imsi = values[97];
+		this.imei = values[98];
+		this.msisdn = values[99];
+		this.mrtype = toLong(values[100]);
+		this.neighborcellnumber = toLong(values[101]);
+		this.gsmneighborcellnumber = toLong(values[102]);
+		this.tdsneighborcellnumber = toLong(values[103]);
+		this.v_enb = toLong(values[104]);
+		this.mrtime = toLong(values[105]);	
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(objectid);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(vid);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(fileformatversion);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(starttime);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(endtime);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(period);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(enbid);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(userlabel);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(mrname);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(cellid);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(earfcn);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(subframenbr);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(prbnbr);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(mmeues1apid);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(mmegroupid);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(mmecode);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(meatime);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(eventtype);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(gridcenterlongitude);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(gridcenterlatitude);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi1);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi2);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi3);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi4);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi5);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi6);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi7);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi8);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi9);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi10);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi11);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi12);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi13);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi14);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi15);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi16);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi17);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi18);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi19);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi20);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi21);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi22);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi23);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi24);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi25);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi26);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi27);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi28);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi29);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi30);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi31);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi32);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi33);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi34);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi35);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi36);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi37);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi38);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi39);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi40);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi41);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi42);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi43);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi44);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi45);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi46);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi47);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi48);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi49);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi50);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi51);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi52);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi53);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi54);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi55);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi56);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi57);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi58);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi59);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi60);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi61);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi62);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi63);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi64);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi65);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi66);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi67);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi68);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi69);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi70);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(kpi71);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(length);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(city);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(xdrtype);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(interfaces);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(xdrid);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(rat);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(imsi);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(imei);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(msisdn);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(mrtype);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(neighborcellnumber);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(gsmneighborcellnumber);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(tdsneighborcellnumber);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(v_enb);
+		sb.append(StringUtils.DELIMITER_INNER_ITEM);
+		sb.append(mrtime);
+		return sb.toString();
+	}
+	
+	public String getObjectid() {
+		return objectid;
+	}
+
+	public void setObjectid(String objectid) {
+		this.objectid = objectid;
+	}
+
+	public Long getVid() {
+		return vid;
+	}
+
+	public void setVid(Long vid) {
+		this.vid = vid;
+	}
+
+	public String getFileformatversion() {
+		return fileformatversion;
+	}
+
+	public void setFileformatversion(String fileformatversion) {
+		this.fileformatversion = fileformatversion;
+	}
+
+	public long getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(long starttime) {
+		this.starttime = starttime;
+	}
+
+	public long getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(long endtime) {
+		this.endtime = endtime;
+	}
+
+	public Long getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(Long period) {
+		this.period = period;
+	}
+
+	public Long getEnbid() {
+		return enbid;
+	}
+
+	public void setEnbid(Long enbid) {
+		this.enbid = enbid;
+	}
+
+	public Long getMeatime() {
+		return meatime;
+	}
+
+	public void setMeatime(Long meatime) {
+		this.meatime = meatime;
+	}
+
+	public String getUserlabel() {
+		return userlabel;
+	}
+
+	public void setUserlabel(String userlabel) {
+		this.userlabel = userlabel;
+	}
+
+	public String getMrname() {
+		return mrname;
+	}
+
+	public void setMrname(String mrname) {
+		this.mrname = mrname;
+	}
+
+	public Long getCellid() {
+		return cellid;
+	}
+
+	public void setCellid(Long cellid) {
+		this.cellid = cellid;
+	}
+
+	public Long getEarfcn() {
+		return earfcn;
+	}
+
+	public void setEarfcn(Long earfcn) {
+		this.earfcn = earfcn;
+	}
+
+	public Long getSubframenbr() {
+		return subframenbr;
+	}
+
+	public void setSubframenbr(Long subframenbr) {
+		this.subframenbr = subframenbr;
+	}
+
+	public Long getPrbnbr() {
+		return prbnbr;
+	}
+
+	public void setPrbnbr(Long prbnbr) {
+		this.prbnbr = prbnbr;
+	}
+
+	public Long getMmeues1apid() {
+		return mmeues1apid;
+	}
+
+	public void setMmeues1apid(Long mmeues1apid) {
+		this.mmeues1apid = mmeues1apid;
+	}
+
+	public Long getMmegroupid() {
+		return mmegroupid;
+	}
+
+	public void setMmegroupid(Long mmegroupid) {
+		this.mmegroupid = mmegroupid;
+	}
+
+	public Long getMmecode() {
+		return mmecode;
+	}
+
+	public void setMmecode(Long mmecode) {
+		this.mmecode = mmecode;
+	}
+
+	public String getEventtype() {
+		return eventtype;
+	}
+
+	public void setEventtype(String eventtype) {
+		this.eventtype = eventtype;
+	}
+
+	public Double getGridcenterlongitude() {
+		return gridcenterlongitude;
+	}
+
+	public void setGridcenterlongitude(Double gridcenterlongitude) {
+		this.gridcenterlongitude = gridcenterlongitude;
+	}
+
+	public Double getGridcenterlatitude() {
+		return gridcenterlatitude;
+	}
+
+	public void setGridcenterlatitude(Double gridcenterlatitude) {
+		this.gridcenterlatitude = gridcenterlatitude;
+	}
+
+	public Long getKpi1() {
+		return kpi1;
+	}
+
+	public void setKpi1(Long kpi1) {
+		this.kpi1 = kpi1;
+	}
+
+	public Long getKpi2() {
+		return kpi2;
+	}
+
+	public void setKpi2(Long kpi2) {
+		this.kpi2 = kpi2;
+	}
+
+	public Long getKpi3() {
+		return kpi3;
+	}
+
+	public void setKpi3(Long kpi3) {
+		this.kpi3 = kpi3;
+	}
+
+	public Long getKpi4() {
+		return kpi4;
+	}
+
+	public void setKpi4(Long kpi4) {
+		this.kpi4 = kpi4;
+	}
+
+	public Long getKpi5() {
+		return kpi5;
+	}
+
+	public void setKpi5(Long kpi5) {
+		this.kpi5 = kpi5;
+	}
+
+	public Long getKpi6() {
+		return kpi6;
+	}
+
+	public void setKpi6(Long kpi6) {
+		this.kpi6 = kpi6;
+	}
+
+	public Long getKpi7() {
+		return kpi7;
+	}
+
+	public void setKpi7(Long kpi7) {
+		this.kpi7 = kpi7;
+	}
+
+	public Long getKpi8() {
+		return kpi8;
+	}
+
+	public void setKpi8(Long kpi8) {
+		this.kpi8 = kpi8;
+	}
+
+	public Long getKpi9() {
+		return kpi9;
+	}
+
+	public void setKpi9(Long kpi9) {
+		this.kpi9 = kpi9;
+	}
+
+	public Long getKpi10() {
+		return kpi10;
+	}
+
+	public void setKpi10(Long kpi10) {
+		this.kpi10 = kpi10;
+	}
+
+	public Long getKpi11() {
+		return kpi11;
+	}
+
+	public void setKpi11(Long kpi11) {
+		this.kpi11 = kpi11;
+	}
+
+	public Long getKpi12() {
+		return kpi12;
+	}
+
+	public void setKpi12(Long kpi12) {
+		this.kpi12 = kpi12;
+	}
+
+	public Long getKpi13() {
+		return kpi13;
+	}
+
+	public void setKpi13(Long kpi13) {
+		this.kpi13 = kpi13;
+	}
+
+	public Long getKpi14() {
+		return kpi14;
+	}
+
+	public void setKpi14(Long kpi14) {
+		this.kpi14 = kpi14;
+	}
+
+	public Long getKpi15() {
+		return kpi15;
+	}
+
+	public void setKpi15(Long kpi15) {
+		this.kpi15 = kpi15;
+	}
+
+	public Long getKpi16() {
+		return kpi16;
+	}
+
+	public void setKpi16(Long kpi16) {
+		this.kpi16 = kpi16;
+	}
+
+	public Long getKpi17() {
+		return kpi17;
+	}
+
+	public void setKpi17(Long kpi17) {
+		this.kpi17 = kpi17;
+	}
+
+	public Long getKpi18() {
+		return kpi18;
+	}
+
+	public void setKpi18(Long kpi18) {
+		this.kpi18 = kpi18;
+	}
+
+	public Long getKpi19() {
+		return kpi19;
+	}
+
+	public void setKpi19(Long kpi19) {
+		this.kpi19 = kpi19;
+	}
+
+	public Long getKpi20() {
+		return kpi20;
+	}
+
+	public void setKpi20(Long kpi20) {
+		this.kpi20 = kpi20;
+	}
+
+	public Long getKpi21() {
+		return kpi21;
+	}
+
+	public void setKpi21(Long kpi21) {
+		this.kpi21 = kpi21;
+	}
+
+	public Long getKpi22() {
+		return kpi22;
+	}
+
+	public void setKpi22(Long kpi22) {
+		this.kpi22 = kpi22;
+	}
+
+	public Long getKpi23() {
+		return kpi23;
+	}
+
+	public void setKpi23(Long kpi23) {
+		this.kpi23 = kpi23;
+	}
+
+	public Long getKpi24() {
+		return kpi24;
+	}
+
+	public void setKpi24(Long kpi24) {
+		this.kpi24 = kpi24;
+	}
+
+	public Long getKpi25() {
+		return kpi25;
+	}
+
+	public void setKpi25(Long kpi25) {
+		this.kpi25 = kpi25;
+	}
+
+	public Long getKpi26() {
+		return kpi26;
+	}
+
+	public void setKpi26(Long kpi26) {
+		this.kpi26 = kpi26;
+	}
+
+	public Long getKpi27() {
+		return kpi27;
+	}
+
+	public void setKpi27(Long kpi27) {
+		this.kpi27 = kpi27;
+	}
+
+	public Long getKpi28() {
+		return kpi28;
+	}
+
+	public void setKpi28(Long kpi28) {
+		this.kpi28 = kpi28;
+	}
+
+	public Long getKpi29() {
+		return kpi29;
+	}
+
+	public void setKpi29(Long kpi29) {
+		this.kpi29 = kpi29;
+	}
+
+	public Long getKpi30() {
+		return kpi30;
+	}
+
+	public void setKpi30(Long kpi30) {
+		this.kpi30 = kpi30;
+	}
+
+	public Long getKpi31() {
+		return kpi31;
+	}
+
+	public void setKpi31(Long kpi31) {
+		this.kpi31 = kpi31;
+	}
+
+	public Long getKpi32() {
+		return kpi32;
+	}
+
+	public void setKpi32(Long kpi32) {
+		this.kpi32 = kpi32;
+	}
+
+	public Long getKpi33() {
+		return kpi33;
+	}
+
+	public void setKpi33(Long kpi33) {
+		this.kpi33 = kpi33;
+	}
+
+	public Long getKpi34() {
+		return kpi34;
+	}
+
+	public void setKpi34(Long kpi34) {
+		this.kpi34 = kpi34;
+	}
+
+	public Long getKpi35() {
+		return kpi35;
+	}
+
+	public void setKpi35(Long kpi35) {
+		this.kpi35 = kpi35;
+	}
+
+	public Long getKpi36() {
+		return kpi36;
+	}
+
+	public void setKpi36(Long kpi36) {
+		this.kpi36 = kpi36;
+	}
+
+	public Long getKpi37() {
+		return kpi37;
+	}
+
+	public void setKpi37(Long kpi37) {
+		this.kpi37 = kpi37;
+	}
+
+	public Long getKpi38() {
+		return kpi38;
+	}
+
+	public void setKpi38(Long kpi38) {
+		this.kpi38 = kpi38;
+	}
+
+	public Long getKpi39() {
+		return kpi39;
+	}
+
+	public void setKpi39(Long kpi39) {
+		this.kpi39 = kpi39;
+	}
+
+	public Long getKpi40() {
+		return kpi40;
+	}
+
+	public void setKpi40(Long kpi40) {
+		this.kpi40 = kpi40;
+	}
+
+	public Long getKpi41() {
+		return kpi41;
+	}
+
+	public void setKpi41(Long kpi41) {
+		this.kpi41 = kpi41;
+	}
+
+	public Long getKpi42() {
+		return kpi42;
+	}
+
+	public void setKpi42(Long kpi42) {
+		this.kpi42 = kpi42;
+	}
+
+	public Long getKpi43() {
+		return kpi43;
+	}
+
+	public void setKpi43(Long kpi43) {
+		this.kpi43 = kpi43;
+	}
+
+	public Long getKpi44() {
+		return kpi44;
+	}
+
+	public void setKpi44(Long kpi44) {
+		this.kpi44 = kpi44;
+	}
+
+	public Long getKpi45() {
+		return kpi45;
+	}
+
+	public void setKpi45(Long kpi45) {
+		this.kpi45 = kpi45;
+	}
+
+	public Long getKpi46() {
+		return kpi46;
+	}
+
+	public void setKpi46(Long kpi46) {
+		this.kpi46 = kpi46;
+	}
+
+	public Long getKpi47() {
+		return kpi47;
+	}
+
+	public void setKpi47(Long kpi47) {
+		this.kpi47 = kpi47;
+	}
+
+	public Long getKpi48() {
+		return kpi48;
+	}
+
+	public void setKpi48(Long kpi48) {
+		this.kpi48 = kpi48;
+	}
+
+	public Long getKpi49() {
+		return kpi49;
+	}
+
+	public void setKpi49(Long kpi49) {
+		this.kpi49 = kpi49;
+	}
+
+	public Long getKpi50() {
+		return kpi50;
+	}
+
+	public void setKpi50(Long kpi50) {
+		this.kpi50 = kpi50;
+	}
+
+	public Long getKpi51() {
+		return kpi51;
+	}
+
+	public void setKpi51(Long kpi51) {
+		this.kpi51 = kpi51;
+	}
+
+	public Long getKpi52() {
+		return kpi52;
+	}
+
+	public void setKpi52(Long kpi52) {
+		this.kpi52 = kpi52;
+	}
+
+	public Long getKpi53() {
+		return kpi53;
+	}
+
+	public void setKpi53(Long kpi53) {
+		this.kpi53 = kpi53;
+	}
+
+	public Long getKpi54() {
+		return kpi54;
+	}
+
+	public void setKpi54(Long kpi54) {
+		this.kpi54 = kpi54;
+	}
+
+	public Long getKpi55() {
+		return kpi55;
+	}
+
+	public void setKpi55(Long kpi55) {
+		this.kpi55 = kpi55;
+	}
+
+	public Long getKpi56() {
+		return kpi56;
+	}
+
+	public void setKpi56(Long kpi56) {
+		this.kpi56 = kpi56;
+	}
+
+	public Long getKpi57() {
+		return kpi57;
+	}
+
+	public void setKpi57(Long kpi57) {
+		this.kpi57 = kpi57;
+	}
+
+	public Long getKpi58() {
+		return kpi58;
+	}
+
+	public void setKpi58(Long kpi58) {
+		this.kpi58 = kpi58;
+	}
+
+	public Long getKpi59() {
+		return kpi59;
+	}
+
+	public void setKpi59(Long kpi59) {
+		this.kpi59 = kpi59;
+	}
+
+	public Long getKpi60() {
+		return kpi60;
+	}
+
+	public void setKpi60(Long kpi60) {
+		this.kpi60 = kpi60;
+	}
+
+	public Long getKpi61() {
+		return kpi61;
+	}
+
+	public void setKpi61(Long kpi61) {
+		this.kpi61 = kpi61;
+	}
+
+	public Long getKpi62() {
+		return kpi62;
+	}
+
+	public void setKpi62(Long kpi62) {
+		this.kpi62 = kpi62;
+	}
+
+	public Long getKpi63() {
+		return kpi63;
+	}
+
+	public void setKpi63(Long kpi63) {
+		this.kpi63 = kpi63;
+	}
+
+	public Long getKpi64() {
+		return kpi64;
+	}
+
+	public void setKpi64(Long kpi64) {
+		this.kpi64 = kpi64;
+	}
+
+	public Long getKpi65() {
+		return kpi65;
+	}
+
+	public void setKpi65(Long kpi65) {
+		this.kpi65 = kpi65;
+	}
+
+	public Long getKpi66() {
+		return kpi66;
+	}
+
+	public void setKpi66(Long kpi66) {
+		this.kpi66 = kpi66;
+	}
+
+	public Long getKpi67() {
+		return kpi67;
+	}
+
+	public void setKpi67(Long kpi67) {
+		this.kpi67 = kpi67;
+	}
+
+	public Long getKpi68() {
+		return kpi68;
+	}
+
+	public void setKpi68(Long kpi68) {
+		this.kpi68 = kpi68;
+	}
+
+	public Long getKpi69() {
+		return kpi69;
+	}
+
+	public void setKpi69(Long kpi69) {
+		this.kpi69 = kpi69;
+	}
+
+	public Long getKpi70() {
+		return kpi70;
+	}
+
+	public void setKpi70(Long kpi70) {
+		this.kpi70 = kpi70;
+	}
+
+	public Long getKpi71() {
+		return kpi71;
+	}
+
+	public void setKpi71(Long kpi71) {
+		this.kpi71 = kpi71;
+	}
+
+	public Long getLength() {
+		return length;
+	}
+
+	public void setLength(Long length) {
+		this.length = length;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public Long getXdrtype() {
+		return xdrtype;
+	}
+
+	public void setXdrtype(Long xdrtype) {
+		this.xdrtype = xdrtype;
+	}
+
+	public Long getInterfaces() {
+		return interfaces;
+	}
+
+	public void setInterfaces(Long interfaces) {
+		this.interfaces = interfaces;
+	}
+
+	public String getXdrid() {
+		return xdrid;
+	}
+
+	public void setXdrid(String xdrid) {
+		this.xdrid = xdrid;
+	}
+
+	public Long getRat() {
+		return rat;
+	}
+
+	public void setRat(Long rat) {
+		this.rat = rat;
+	}
+
+	public String getImsi() {
+		return imsi;
+	}
+
+	public void setImsi(String imsi) {
+		this.imsi = imsi;
+	}
+
+	public String getImei() {
+		return imei;
+	}
+
+	public void setImei(String imei) {
+		this.imei = imei;
+	}
+
+	public String getMsisdn() {
+		return msisdn;
+	}
+
+	public void setMsisdn(String msisdn) {
+		this.msisdn = msisdn;
+	}
+
+	public Long getMrtype() {
+		return mrtype;
+	}
+
+	public void setMrtype(Long mrtype) {
+		this.mrtype = mrtype;
+	}
+
+	public Long getNeighborcellnumber() {
+		return neighborcellnumber;
+	}
+
+	public void setNeighborcellnumber(Long neighborcellnumber) {
+		this.neighborcellnumber = neighborcellnumber;
+	}
+
+	public Long getGsmneighborcellnumber() {
+		return gsmneighborcellnumber;
+	}
+
+	public void setGsmneighborcellnumber(Long gsmneighborcellnumber) {
+		this.gsmneighborcellnumber = gsmneighborcellnumber;
+	}
+
+	public Long getTdsneighborcellnumber() {
+		return tdsneighborcellnumber;
+	}
+
+	public void setTdsneighborcellnumber(Long tdsneighborcellnumber) {
+		this.tdsneighborcellnumber = tdsneighborcellnumber;
+	}
+
+	public Long getV_enb() {
+		return v_enb;
+	}
+
+	public void setV_enb(Long v_enb) {
+		this.v_enb = v_enb;
+	}
+
+	public Long getMrtime() {
+		return mrtime;
+	}
+
+	public void setMrtime(Long mrtime) {
+		this.mrtime = mrtime;
+	}
+
+}

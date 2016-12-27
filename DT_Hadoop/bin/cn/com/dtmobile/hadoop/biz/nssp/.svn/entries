@@ -1,0 +1,64 @@
+10
+
+dir
+8834
+https://10.1.203.14/svn/YTO_CoreSystemDoc/11_2014project/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/hadoop/07%E4%BB%A3%E7%A0%81/ytHadoopPre/src/cn/com/yto56/hadoop/biz/countmainorg
+https://10.1.203.14/svn/YTO_CoreSystemDoc
+
+
+
+2014-10-22T00:41:24.436386Z
+7598
+hadoop3
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1af829c7-c383-ab44-a62b-b895e7264054
+
+format
+dir
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+deleted
+
+job
+dir
+
+model
+dir
+
+mr
+dir
+
+service
+dir
+

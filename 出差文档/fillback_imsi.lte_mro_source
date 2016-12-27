@@ -1,0 +1,157 @@
+﻿INSERT OVERWRITE TABLE DCL.lte_mro_source
+partition(dt="$ANALY_DATE",h="$ANALY_HOUR")
+SELECT
+lte.objectid,
+lte.vid,
+lte.fileformatversion,
+lte.starttime,
+lte.endtime,
+lte.period,
+lte.enbid,
+lte.userlabel,
+lte.mrname,
+lte.cellid,
+lte.earfcn,
+lte.subframenbr,
+lte.prbnbr,
+lte.mmeues1apid,
+lte.mmegroupid,
+lte.mmecode,
+lte.meatime,
+lte.eventtype,
+lte.gridcenterlongitude,
+lte.gridcenterlatitude,
+lte.kpi1,
+lte.kpi2,
+lte.kpi3,
+lte.kpi4,
+lte.kpi5,
+lte.kpi6,
+lte.kpi7,
+lte.kpi8,
+lte.kpi9,
+lte.kpi10,
+lte.kpi11,
+lte.kpi12,
+lte.kpi13,
+lte.kpi14,
+lte.kpi15,
+lte.kpi16,
+lte.kpi17,
+lte.kpi18,
+lte.kpi19,
+lte.kpi20,
+lte.kpi21,
+lte.kpi22,
+lte.kpi23,
+lte.kpi24,
+lte.kpi25,
+lte.kpi26,
+lte.kpi27,
+lte.kpi28,
+lte.kpi29,
+lte.kpi30,
+lte.kpi31,
+lte.kpi32,
+lte.kpi33,
+lte.kpi34,
+lte.kpi35,
+lte.kpi36,
+lte.kpi37,
+lte.kpi38,
+lte.kpi39,
+lte.kpi40,
+lte.kpi41,
+lte.kpi42,
+lte.kpi43,
+lte.kpi44,
+lte.kpi45,
+lte.kpi46,
+lte.kpi47,
+lte.kpi48,
+lte.kpi49,
+lte.kpi50,
+lte.kpi51,
+lte.kpi52,
+lte.kpi53,
+lte.kpi54,
+lte.kpi55,
+lte.kpi56,
+lte.kpi57,
+lte.kpi58,
+lte.kpi59,
+lte.kpi60,
+lte.kpi61,
+lte.kpi62,
+lte.kpi63,
+lte.kpi64,
+lte.kpi65,
+lte.kpi66,
+lte.kpi67,
+lte.kpi68,
+lte.kpi69,
+lte.kpi70,
+lte.kpi71,
+lte.length,
+lte.city,
+lte.xdrtype,
+lte.interfaces,
+lte.xdrid,
+lte.rat,
+S1.imsi,
+S1.imei,
+S1.msisdn,
+lte.mrtype,
+lte.neighborcellnumber,
+lte.gsmneighborcellnumber,
+lte.tdsneighborcellnumber,
+lte.v_enb,
+lte.mrtime
+FROM
+ lte_mro_source lte
+LEFT OUTER JOIN (
+ SELECT
+  B.IMSI,
+  B.IMEI,
+  B.MSISDN,
+  A .MMEUES1APID,
+  A .MMEGROUPID,
+  A .MMECODE,
+  A .PROCEDUREENDTIME
+ FROM
+  (
+   SELECT
+    MMEUES1APID,
+    MMEGROUPID,
+    MMECODE,
+    MIN (PROCEDUREENDTIME) PROCEDUREENDTIME
+   FROM
+    default.tb_xdr_ifc_s1mme
+    where dt='$ANALY_DATE' and h='$ANALY_HOUR'
+   GROUP BY
+    MMEUES1APID,
+    MMEGROUPID,
+    MMECODE
+  ) A
+ INNER JOIN (
+  SELECT
+   IMSI,
+   IMEI,
+   MSISDN,
+   MMEUES1APID,
+   MMEGROUPID,
+   MMECODE,
+   PROCEDUREENDTIME
+  FROM
+   default.tb_xdr_ifc_s1mme
+   where dt='$ANALY_DATE' and h='$ANALY_HOUR'
+ ) B ON A .PROCEDUREENDTIME = B.PROCEDUREENDTIME
+ AND A .MMEUES1APID = B.MMEUES1APID
+ AND A .MMEGROUPID = B.MMEGROUPID
+ AND A .MMECODE = B.MMECODE
+) S1 ON lte.MMEUES1APID = S1.MMEUES1APID
+AND lte.MMEGROUPID = S1.MMEGROUPID
+AND lte.MMECODE = S1.MMECODE
+WHERE
+ lte.dt='$ANALY_DATE' and lte.h='$ANALY_HOUR' and
+ lte.PROCEDUREENDTIME - S1.PROCEDUREENDTIME <= 600000;

@@ -1,0 +1,529 @@
+package cn.com.dtmobile.hadoop.biz.exception.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import cn.com.dtmobile.hadoop.biz.exception.constants.ExceptionConstnts;
+import cn.com.dtmobile.hadoop.biz.exception.constants.InterfaceConstants;
+import cn.com.dtmobile.hadoop.biz.exception.model.S1mmeExceptionMessage;
+import cn.com.dtmobile.hadoop.biz.exception.model.UuExceptionMessage;
+import cn.com.dtmobile.hadoop.biz.exception.model.X2ExceptionMessage;
+import cn.com.dtmobile.hadoop.model.LteCellSource;
+import cn.com.dtmobile.hadoop.model.LteMroSource;
+import cn.com.dtmobile.hadoop.model.S1mmeXdr;
+import cn.com.dtmobile.hadoop.model.UuXdr;
+import cn.com.dtmobile.hadoop.model.X2;
+import cn.com.dtmobile.hadoop.util.StringUtils;
+
+public class Exception4GAnalyService {
+	X2ExceptionMessage x2ExceptionMessage = null;
+	S1mmeExceptionMessage s1mmeExceptionMessage = null;
+	UuExceptionMessage uuExceptionMessage = null;
+
+	public List<X2ExceptionMessage> exception4GAnalyServiceX2(List<X2> x2List,
+			List<S1mmeXdr> s1mmeXdrList, List<UuXdr> uuList,
+			Map<String, String> ltecellMap, Map<String, String> cellXdrMap,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> exceptionMap, Map<String, String> t_professMap) {
+		List<X2ExceptionMessage> x2ExceptionMessageList = new ArrayList<X2ExceptionMessage>();
+		// enter the interface X2
+		if (x2List.size() > 0) {
+
+			for (X2 x2 : x2List) {
+				if (x2.getCommXdr().getInterfaces() == 2
+						&& ExceptionConstnts.FG_SWITCH_FAIL == x2.getEtype()) {
+					// step 2
+					this.stepTwo(x2, uuList, s1mmeXdrList, lteMroSourceList,
+							ltecellMap, cellXdrMap, exceptionMap, t_professMap);
+				} else {
+					x2ExceptionMessageList.add(new X2ExceptionMessage(x2, "12",
+							InterfaceConstants.UU, exceptionMap));
+				}
+			}
+		}
+		return x2ExceptionMessageList;
+	}
+
+	public List<S1mmeExceptionMessage> exception4GAnalyServiceS1(
+			List<S1mmeXdr> s1mmeXdrList, List<UuXdr> uuList,
+			Map<String, String> ltecellMap, Map<String, String> cellXdrMap,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> exceptionMap, Map<String, String> t_professMap) {
+		List<S1mmeExceptionMessage> s1mmeExceptionMessageList = new ArrayList<S1mmeExceptionMessage>();
+		// enter the interface S1
+		if (s1mmeXdrList.size() > 0) {
+
+			for (S1mmeXdr s1Xdr : s1mmeXdrList) {
+				if (s1Xdr.getCommXdr().getInterfaces() == 5
+						&& ExceptionConstnts.FG_SWITCH_FAIL == s1Xdr.getEtype()) {
+					// step 5
+					this.stepFive(s1Xdr, uuList, lteMroSourceList, ltecellMap,
+							cellXdrMap, exceptionMap, t_professMap);
+				} else {
+					s1mmeExceptionMessageList.add(new S1mmeExceptionMessage(
+							s1Xdr, "12", InterfaceConstants.UU, exceptionMap));
+				}
+			}
+		}
+		return s1mmeExceptionMessageList;
+	}
+
+	public List<UuExceptionMessage> exception4GAnalyServiceUu(List<X2> x2List,
+			List<S1mmeXdr> s1mmeXdrList, List<UuXdr> uuList,
+			Map<String, String> ltecellMap, Map<String, String> cellXdrMap,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> exceptionMap, Map<String, String> t_professMap) {
+		List<UuExceptionMessage> uuExceptionMessageList = new ArrayList<UuExceptionMessage>();
+		if (uuList.size() > 0) {
+
+			for (UuXdr uuXdr : uuList) {
+				if (uuXdr.getCommXdr().getInterfaces() == 1
+						&& ExceptionConstnts.FG_SWITCH_FAIL == uuXdr.getEtype()) {
+					// step 6
+					this.stepSixUu(uuXdr, lteMroSourceList, ltecellMap,
+							cellXdrMap, exceptionMap, t_professMap);
+				} else {
+					uuExceptionMessageList.add(new UuExceptionMessage(uuXdr,
+							"12", InterfaceConstants.UU, exceptionMap));
+				}
+			}
+		}
+		return uuExceptionMessageList;
+	}
+
+	public X2ExceptionMessage stepTwo(X2 x2, List<UuXdr> uuList,
+			List<S1mmeXdr> s1mmeXdrList, List<LteMroSource> lteMroSourceList,
+			Map<String, String> ltecellMap, Map<String, String> cellXdrMap,
+			Map<String, String> exceptionMap, Map<String, String> t_professMap) {
+		if (uuList != null) {
+			for (UuXdr uuXdr : uuList) {
+				if (uuXdr.getCommXdr().getInterfaces() == 1
+						&& uuXdr.getProcedureStartTime() >= x2
+								.getProcedureStartTime()
+						&& uuXdr.getProcedureEndTime() <= x2
+								.getProcedureEndTime()) {
+					if ("0".equals(uuXdr.getProcedureStatus())) {
+						// step 3
+						if (s1mmeXdrList != null) {
+							for (S1mmeXdr s1Xdr : s1mmeXdrList) {
+								if (s1Xdr.getCommXdr().getInterfaces() == 5
+										&& s1Xdr.getProcedureStartTime() >= x2
+												.getProcedureStartTime()
+										&& s1Xdr.getProcedureEndTime() <= x2
+												.getProcedureEndTime()
+										&& "14".equals(s1Xdr
+												.getProcedureStatus())
+										&& s1Xdr.getCellId().equals(
+												x2.getTargetCellId())) {
+									if ("0".equals(s1Xdr.getProcedureStatus())) {
+										// step 4
+										for (S1mmeXdr s1Xdr2 : s1mmeXdrList) {
+											if (s1Xdr2.getCommXdr()
+													.getInterfaces() == 5
+													&& s1Xdr2
+															.getProcedureStartTime() >= x2
+															.getProcedureStartTime() - 1000
+													&& s1Xdr2
+															.getProcedureStartTime() <= x2
+															.getProcedureStartTime() + 5000
+													&& "14".equals(s1Xdr2
+															.getProcedureStatus())) {
+												if ("1".equals(s1Xdr2
+														.getProcedureStatus())) {
+													return new X2ExceptionMessage(
+															x2,
+															x2.getFailureCause(),
+															InterfaceConstants.S1AP,
+															exceptionMap);
+												} else {
+													return new X2ExceptionMessage(
+															x2,
+															"2004",
+															InterfaceConstants.S1AP,
+															exceptionMap);
+												}
+											}
+										}
+									} else {
+										return new X2ExceptionMessage(x2,
+												"1001", InterfaceConstants.X2,
+												exceptionMap);
+									}
+								}
+							}
+						} else {
+							return new X2ExceptionMessage(x2, "12",
+									InterfaceConstants.UU, exceptionMap);
+						}
+					} else {
+						// step 6
+						this.stepSixX2(x2, lteMroSourceList, ltecellMap,
+								cellXdrMap, exceptionMap, t_professMap);
+					}
+				}
+			}
+		} else {
+			return new X2ExceptionMessage(x2, "12", InterfaceConstants.UU,
+					exceptionMap);
+		}
+		return x2ExceptionMessage;
+	}
+
+	public S1mmeExceptionMessage stepFive(S1mmeXdr s1Xdr, List<UuXdr> uuList,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> ltecellMap, Map<String, String> cellXdrMap,
+			Map<String, String> exceptionMap, Map<String, String> t_professMap) {
+		if (uuList != null) {
+			for (UuXdr uuXdr : uuList) {
+				if (uuXdr.getCommXdr().getInterfaces() == 1
+						&& uuXdr.getProcedureStartTime() >= s1Xdr
+								.getProcedureStartTime() - 1000
+						&& uuXdr.getProcedureEndTime() <= s1Xdr
+								.getProcedureEndTime() + 1000
+						&& "8".equals(uuXdr.getProcedureStatus())
+						&& s1Xdr.getCellId().equals(uuXdr.getTargetCellId())) {
+					if ("0".equals(uuXdr.getProcedureStatus())) {
+						return new S1mmeExceptionMessage(s1Xdr,
+								s1Xdr.getFailureCause(),
+								InterfaceConstants.S1AP, exceptionMap);
+					} else {
+						// step 6
+						this.stepSixS1(s1Xdr, lteMroSourceList, ltecellMap,
+								cellXdrMap, exceptionMap, t_professMap);
+					}
+				}
+			}
+		} else {
+			return new S1mmeExceptionMessage(s1Xdr, "12",
+					InterfaceConstants.UU, exceptionMap);
+		}
+		return s1mmeExceptionMessage;
+	}
+
+	public X2ExceptionMessage stepSixX2() {
+
+		return x2ExceptionMessage;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public UuExceptionMessage stepSixUu(UuXdr uuXdr,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> ltecellMap, Map<String, String> cellXdrMap,
+			Map<String, String> exceptionMap, Map<String, String> t_professMap) {
+		if (lteMroSourceList != null) {
+			for (LteMroSource lteMroSource : lteMroSourceList) {
+				if (lteMroSource.getStarttime() <= uuXdr
+						.getProcedureStartTime() - 20000
+						&& lteMroSource.getStarttime() >= uuXdr
+								.getProcedureStartTime() + 1000
+						&& lteMroSource.getCellid().equals(uuXdr.getCellId())
+						&& lteMroSource.getKpi1() != 0
+						&& "A3".equals(lteMroSource.getEventtype())) {
+					LteMroSource miniueMr = this.getMinKpi(
+							uuXdr.getProcedureStartTime(), lteMroSourceList);
+					Iterator iter = ltecellMap.entrySet().iterator();
+					while (iter.hasNext()) {
+						Map.Entry entry = (Map.Entry) iter.next();
+						if (miniueMr.getKpi12().equals(entry.getKey())
+								&& miniueMr.getCellid().equals(entry.getKey())) {
+							// TODO
+							// 根据目标小区ECI在工参里面查询
+							// step 8
+							Exception4GUtils step8 = new Exception4GUtils();
+							String status = step8.stepEightUu(uuXdr,
+									lteMroSourceList, ltecellMap, cellXdrMap,
+									exceptionMap);
+							if ("O3".equals(status)) {
+								return new UuExceptionMessage(uuXdr, "1",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O10".equals(status)) {
+								return new UuExceptionMessage(uuXdr, "15",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O5".equals(status)) {
+								return new UuExceptionMessage(uuXdr, "3",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O6".equals(status)) {
+								return new UuExceptionMessage(uuXdr, "4",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O8".equals(status)) {
+								return new UuExceptionMessage(uuXdr, "12",
+										InterfaceConstants.UU, exceptionMap);
+							}
+						} else {
+							// step 7 hold on
+							String[] words = t_professMap.get(entry.getValue())
+									.split(StringUtils.DELIMITER_BETWEEN_ITEMS);
+							double lat1 = Double.parseDouble(words[0]);
+							double lon1 = Double.parseDouble(words[1]);
+							double lat2 = miniueMr.getGridcenterlatitude();
+							double lon2 = miniueMr.getGridcenterlongitude();
+							double dist = this.cell_distance(lat1, lon1, lat2,
+									lon2);
+							if (dist < 6) {
+								return new UuExceptionMessage(uuXdr, "11",
+										InterfaceConstants.UU, exceptionMap);
+							} else {
+								// step 8
+								Exception4GUtils step8 = new Exception4GUtils();
+								String status = step8.stepEightUu(uuXdr,
+										lteMroSourceList, ltecellMap,
+										cellXdrMap, exceptionMap);
+								if ("O3".equals(status)) {
+									return new UuExceptionMessage(uuXdr, "1",
+											InterfaceConstants.UU, exceptionMap);
+								} else if ("O10".equals(status)) {
+									return new UuExceptionMessage(uuXdr, "15",
+											InterfaceConstants.UU, exceptionMap);
+								} else if ("O5".equals(status)) {
+									return new UuExceptionMessage(uuXdr, "3",
+											InterfaceConstants.UU, exceptionMap);
+								} else if ("O6".equals(status)) {
+									return new UuExceptionMessage(uuXdr, "4",
+											InterfaceConstants.UU, exceptionMap);
+								} else if ("O8".equals(status)) {
+									return new UuExceptionMessage(uuXdr, "12",
+											InterfaceConstants.UU, exceptionMap);
+								}
+
+							}
+
+						}
+					}
+				}
+			}
+		} else {
+			return new UuExceptionMessage(uuXdr, "12", InterfaceConstants.UU,
+					exceptionMap);
+		}
+		return uuExceptionMessage;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public S1mmeExceptionMessage stepSixS1(S1mmeXdr s1Xdr,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> ltecellMap, Map<String, String> cellXdrMap,
+			Map<String, String> exceptionMap, Map<String, String> t_professMap) {
+		if (lteMroSourceList != null) {
+			for (LteMroSource lteMroSource : lteMroSourceList) {
+				if (lteMroSource.getStarttime() <= s1Xdr
+						.getProcedureStartTime() - 20000
+						&& lteMroSource.getStarttime() >= s1Xdr
+								.getProcedureStartTime() + 1000
+						&& lteMroSource.getCellid().equals(s1Xdr.getCellId())
+						&& lteMroSource.getKpi1() != 0
+						&& "A3".equals(lteMroSource.getEventtype())) {
+					LteMroSource miniueMr = this.getMinKpi(
+							s1Xdr.getProcedureStartTime(), lteMroSourceList);
+					Iterator iter = ltecellMap.entrySet().iterator();
+					while (iter.hasNext()) {
+						Map.Entry entry = (Map.Entry) iter.next();
+						if (miniueMr.getKpi12().equals(entry.getKey())
+								&& miniueMr.getCellid().equals(entry.getKey())) {
+							// TODO
+							// 根据目标小区ECI在工参里面查询
+							// )
+							// {
+							// step 8
+							Exception4GUtils step8 = new Exception4GUtils();
+							String status = step8.stepEightUu(s1Xdr,
+									lteMroSourceList, ltecellMap, cellXdrMap,
+									exceptionMap);
+							if ("O3".equals(status)) {
+								return new S1mmeExceptionMessage(s1Xdr, "1",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O10".equals(status)) {
+								return new S1mmeExceptionMessage(s1Xdr, "15",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O5".equals(status)) {
+								return new S1mmeExceptionMessage(s1Xdr, "3",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O6".equals(status)) {
+								return new S1mmeExceptionMessage(s1Xdr, "4",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O8".equals(status)) {
+								return new S1mmeExceptionMessage(s1Xdr, "12",
+										InterfaceConstants.UU, exceptionMap);
+							}
+						} else {
+							// step 7 hold on
+							String[] words = t_professMap.get(entry.getValue())
+									.split(StringUtils.DELIMITER_BETWEEN_ITEMS);
+							double lat1 = Double.parseDouble(words[0]);
+							double lon1 = Double.parseDouble(words[1]);
+							double lat2 = miniueMr.getGridcenterlatitude();
+							double lon2 = miniueMr.getGridcenterlongitude();
+							double dist = this.cell_distance(lat1, lon1, lat2,
+									lon2);
+							if (dist < 6) {
+								return new S1mmeExceptionMessage(s1Xdr, "11",
+										InterfaceConstants.UU, exceptionMap);
+							} else {
+								// step 8
+								Exception4GUtils step8 = new Exception4GUtils();
+								String status = step8.stepEightUu(s1Xdr,
+										lteMroSourceList, ltecellMap,
+										cellXdrMap, exceptionMap);
+								if ("O3".equals(status)) {
+									return new S1mmeExceptionMessage(s1Xdr,
+											"1", InterfaceConstants.UU,
+											exceptionMap);
+								} else if ("O10".equals(status)) {
+									return new S1mmeExceptionMessage(s1Xdr,
+											"15", InterfaceConstants.UU,
+											exceptionMap);
+								} else if ("O5".equals(status)) {
+									return new S1mmeExceptionMessage(s1Xdr,
+											"3", InterfaceConstants.UU,
+											exceptionMap);
+								} else if ("O6".equals(status)) {
+									return new S1mmeExceptionMessage(s1Xdr,
+											"4", InterfaceConstants.UU,
+											exceptionMap);
+								} else if ("O8".equals(status)) {
+									return new S1mmeExceptionMessage(s1Xdr,
+											"12", InterfaceConstants.UU,
+											exceptionMap);
+								}
+
+							}
+						}
+					}
+				}
+			}
+		} else {
+			return new S1mmeExceptionMessage(s1Xdr, "12",
+					InterfaceConstants.UU, exceptionMap);
+		}
+		return s1mmeExceptionMessage;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public X2ExceptionMessage stepSixX2(X2 x2,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> ltecellMap, Map<String, String> cellXdrMap,
+			Map<String, String> exceptionMap, Map<String, String> t_professMap) {
+		if (lteMroSourceList != null) {
+			for (LteMroSource lteMroSource : lteMroSourceList) {
+				if (lteMroSource.getStarttime() <= x2.getProcedureStartTime() - 20000
+						&& lteMroSource.getStarttime() >= x2
+								.getProcedureStartTime() + 1000
+						&& lteMroSource.getCellid()
+								.equals(x2.getTargetCellId())
+						&& lteMroSource.getKpi1() != 0
+						&& "A3".equals(lteMroSource.getEventtype())) {
+					LteMroSource miniueMr = this.getMinKpi(
+							x2.getProcedureStartTime(), lteMroSourceList);
+					Iterator iter = ltecellMap.entrySet().iterator();
+					while (iter.hasNext()) {
+						Map.Entry entry = (Map.Entry) iter.next();
+						if (miniueMr.getKpi12().equals(entry.getKey())
+								&& miniueMr.getCellid().equals(entry.getKey())) {
+							// step 8
+							Exception4GUtils step8 = new Exception4GUtils();
+							String status = step8.stepEightUu(x2,
+									lteMroSourceList, ltecellMap, cellXdrMap,
+									exceptionMap);
+							if ("O3".equals(status)) {
+								return new X2ExceptionMessage(x2, "1",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O10".equals(status)) {
+								return new X2ExceptionMessage(x2, "15",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O5".equals(status)) {
+								return new X2ExceptionMessage(x2, "3",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O6".equals(status)) {
+								return new X2ExceptionMessage(x2, "4",
+										InterfaceConstants.UU, exceptionMap);
+							} else if ("O8".equals(status)) {
+								return new X2ExceptionMessage(x2, "12",
+										InterfaceConstants.UU, exceptionMap);
+							}
+						} else {
+							// step 7 hold on
+							String[] words = t_professMap.get(entry.getValue())
+									.split(StringUtils.DELIMITER_BETWEEN_ITEMS);
+							double lat1 = Double.parseDouble(words[0]);
+							double lon1 = Double.parseDouble(words[1]);
+							double lat2 = miniueMr.getGridcenterlatitude();
+							double lon2 = miniueMr.getGridcenterlongitude();
+							double dist = this.cell_distance(lat1, lon1, lat2,
+									lon2);
+							if (dist < 6) {
+								return new X2ExceptionMessage(x2, "11",
+										InterfaceConstants.UU, exceptionMap);
+							} else {
+								// step 8
+								Exception4GUtils step8 = new Exception4GUtils();
+								String status = step8.stepEightUu(x2,
+										lteMroSourceList, ltecellMap,
+										cellXdrMap, exceptionMap);
+								if ("O3".equals(status)) {
+									return new X2ExceptionMessage(x2, "1",
+											InterfaceConstants.UU, exceptionMap);
+								} else if ("O10".equals(status)) {
+									return new X2ExceptionMessage(x2, "15",
+											InterfaceConstants.UU, exceptionMap);
+								} else if ("O5".equals(status)) {
+									return new X2ExceptionMessage(x2, "3",
+											InterfaceConstants.UU, exceptionMap);
+								} else if ("O6".equals(status)) {
+									return new X2ExceptionMessage(x2, "4",
+											InterfaceConstants.UU, exceptionMap);
+								} else if ("O8".equals(status)) {
+									return new X2ExceptionMessage(x2, "12",
+											InterfaceConstants.UU, exceptionMap);
+								}
+							}
+						}
+					}
+				}
+			}
+		} else {
+			return new X2ExceptionMessage(x2, "12", InterfaceConstants.UU,
+					exceptionMap);
+		}
+		return x2ExceptionMessage;
+	}
+
+	public X2ExceptionMessage step7X2(LteCellSource lteCell,
+			Map<String, String> t_professMap) {
+		return x2ExceptionMessage;
+	}
+
+	public LteMroSource getMinKpi(long starttime,
+			List<LteMroSource> lteMroSourceList) {
+		Long minTime = Long.MAX_VALUE;
+		Long curTime = 0L;
+
+		Map<Long, LteMroSource> LteMroSourceMap = new HashMap<Long, LteMroSource>();
+		long curkpi2 = 0;
+		for (LteMroSource lteMroSource : lteMroSourceList) {
+			curTime = Math.abs(starttime - lteMroSource.getMeatime());
+			if (minTime > curTime) {
+				minTime = curTime;
+				curkpi2 = lteMroSource.getKpi2();
+			} else if (minTime == curTime) {
+				if (lteMroSource.getKpi2() > curkpi2) {
+					LteMroSourceMap.put(minTime, lteMroSource);
+				}
+			}
+		}
+		return LteMroSourceMap.get(minTime);
+	}
+
+	public double cell_distance(double lat1, double lon1, double lat2,
+			double lon2) {
+		double dist = 0;
+		double pi = Math.PI;
+		dist = 6371004 * Math.acos(Math.sin(lat1 * pi / 180)
+				* Math.sin(lat2 * pi / 180) + Math.cos(lat1 * pi / 180)
+				+ Math.cos(lat2 * pi / 180)
+				* Math.cos(lon2 * pi / 180 - lon1 * pi / 180));
+		return dist;
+
+	}
+}

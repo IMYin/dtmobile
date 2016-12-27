@@ -1,0 +1,74 @@
+package cn.com.dtmobile.hadoop.biz.exception.mr;
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+import cn.com.dtmobile.hadoop.constants.TablesConstants;
+import cn.com.dtmobile.hadoop.util.StringUtils;
+
+public class CommonMaps extends Mapper<LongWritable, Text, Text, Text> {
+
+	private final Text key = new Text();
+
+	@Override
+	public void map(LongWritable inKey, Text value, Context context)
+			throws IOException, InterruptedException {
+		if (value.getLength() > 0) {
+			String[] values = value.toString().split(
+					StringUtils.DELIMITER_INNER_ITEM);
+			String filePath = context.getInputSplit().toString().toUpperCase();
+			if (filePath.contains(TablesConstants.TABLE_MW_XDR)) {
+				if (!"0".equals(values[66])) {
+					key.set(values[5]);
+					context.write(key, new Text(value.toString()
+							+ StringUtils.DELIMITER_INNER_ITEM
+							+ TablesConstants.TABLE_MW_XDR));
+				}
+			} else if (filePath.contains(TablesConstants.TABLE_S1MME_XDR)) {
+				if (!"0".equals(values[38])) {
+					
+					key.set(values[5]);
+					context.write(key, new Text(value.toString()
+							+ StringUtils.DELIMITER_INNER_ITEM
+							+ TablesConstants.TABLE_S1MME_XDR));
+				}
+			} else if (filePath.contains(TablesConstants.TABLE_LTE_MRO_SOU)) {
+				key.set(values[97]);
+				context.write(key, new Text(value.toString()
+						+ StringUtils.DELIMITER_INNER_ITEM
+						+ TablesConstants.TABLE_LTE_MRO_SOU));
+			} else if (filePath.contains(TablesConstants.TABLE_UU_XDR)) {
+				if (!"0".equals(values[26])) {
+					key.set(values[5]);
+					context.write(key, new Text(value.toString()
+							+ StringUtils.DELIMITER_INNER_ITEM
+							+ TablesConstants.TABLE_UU_XDR));
+				}
+			} else if (filePath.contains(TablesConstants.TABLE_GX)) {
+				if (!"0".equals(values[29])) {
+					key.set(values[5]);
+					context.write(key, new Text(value.toString()
+							+ StringUtils.DELIMITER_INNER_ITEM
+							+ TablesConstants.TABLE_GX));
+				}
+			} else if (filePath.contains(TablesConstants.TABLE_SV)) {
+				key.set(values[5]);
+				context.write(key, new Text(value.toString()
+						+ StringUtils.DELIMITER_INNER_ITEM
+						+ TablesConstants.TABLE_SV));
+			} else if (filePath.contains(TablesConstants.TABLE_X2)) {
+				if (!"0".equals(values[22])) {
+					key.set(values[5]);
+					context.write(key, new Text(value.toString()
+							+ StringUtils.DELIMITER_INNER_ITEM
+							+ TablesConstants.TABLE_X2));
+				}
+			} else {
+				return;
+			}
+		}
+	}
+}

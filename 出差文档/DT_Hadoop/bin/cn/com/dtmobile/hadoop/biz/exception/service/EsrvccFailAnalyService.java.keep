@@ -1,0 +1,174 @@
+package cn.com.dtmobile.hadoop.biz.exception.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import cn.com.dtmobile.hadoop.biz.exception.constants.ExceptionConstnts;
+import cn.com.dtmobile.hadoop.biz.exception.constants.InterfaceConstants;
+import cn.com.dtmobile.hadoop.biz.exception.model.S1mmeExceptionMessage;
+import cn.com.dtmobile.hadoop.constants.TablesConstants;
+import cn.com.dtmobile.hadoop.model.LteMroSource;
+import cn.com.dtmobile.hadoop.model.S1mmeXdr;
+import cn.com.dtmobile.hadoop.model.Sv;
+import cn.com.dtmobile.hadoop.model.UuXdr;
+
+public class EsrvccFailAnalyService {
+	S1mmeExceptionMessage s1mmeExceptionMessage = null;
+
+	public List<S1mmeExceptionMessage> esrvccFailAnalyService(List<Sv> svList,
+			List<UuXdr> uuXdrList, List<S1mmeXdr> s1mmeXdrList,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> exceptionMap) {
+		List<S1mmeExceptionMessage> s1mmeExceptionMessageList = new ArrayList<S1mmeExceptionMessage>();
+		// enter the interface 13
+		if (s1mmeXdrList.size() > 0) {
+
+			for (S1mmeXdr s1Xdr : s1mmeXdrList) {
+				if (s1Xdr.getCommXdr().getInterfaces() == 5
+						&& ExceptionConstnts.ESRVCC_FAIL == s1Xdr.getEtype()) {
+					// step 1
+					s1mmeExceptionMessage = this.stepOne(s1Xdr,
+							lteMroSourceList, uuXdrList, svList, exceptionMap);
+					if (s1mmeExceptionMessage != null) {
+						s1mmeExceptionMessageList.add(s1mmeExceptionMessage);
+						continue;
+					}
+				} else {
+					s1mmeExceptionMessageList.add(new S1mmeExceptionMessage(
+							s1Xdr, s1Xdr.getFailureCause(),
+							InterfaceConstants.S1AP, exceptionMap));
+				}
+			}
+		}
+		return s1mmeExceptionMessageList;
+	}
+
+	// step 1
+	public S1mmeExceptionMessage stepOne(S1mmeXdr s1Xdr,
+			List<LteMroSource> lteMroSourceList, List<UuXdr> uuList,
+			List<Sv> svList, Map<String, String> exceptionMap) {
+		if (svList != null) {
+			for (Sv svXdr : svList) {
+				if (svXdr.getProcedureStartTime() >= s1Xdr
+						.getProcedureStartTime()
+						&& svXdr.getProcedureEndTime() <= s1Xdr
+								.getProcedureEndTime()) {
+					if (svXdr.getCommXdr().getInterfaces() == 19
+							&& "1".equals(svXdr.getProcedureType())) {
+						if (!"0".equals(svXdr.getResult())) {
+							return new S1mmeExceptionMessage(s1Xdr,
+									s1Xdr.getFailureCause(),
+									InterfaceConstants.SV, exceptionMap);
+						} else {
+							this.stepTwo(uuList, lteMroSourceList, s1Xdr,
+									exceptionMap);
+						}
+					}
+				}
+			}
+		} else {
+			return new S1mmeExceptionMessage(s1Xdr, s1Xdr.getFailureCause(),
+					InterfaceConstants.S1AP, exceptionMap);
+		}
+		return s1mmeExceptionMessage;
+	}
+
+	public S1mmeExceptionMessage stepTwo(List<UuXdr> uuList,
+			List<LteMroSource> lteMroSourceList, S1mmeXdr s1Xdr,
+			Map<String, String> exceptionMap) {
+		if (uuList != null) {
+			for (UuXdr uuXdr : uuList) {
+				if (uuXdr.getProcedureStartTime() <= s1Xdr
+						.getProcedureStartTime() - 1000
+						&& uuXdr.getProcedureEndTime() >= s1Xdr
+								.getProcedureEndTime() + 1000) {
+					if (uuXdr.getCommXdr().getInterfaces() == 1
+							&& "10".equals(uuXdr.getProcedureType())) {
+						// step 2
+						if ("0".equals(uuXdr.getProcedureStatus())) {
+							return new S1mmeExceptionMessage(s1Xdr,
+									s1Xdr.getFailureCause(),
+									InterfaceConstants.S1AP, exceptionMap);
+						} else {
+							// step 3
+							if ("6".equals(s1Xdr.getRequestCause())) {
+								return new S1mmeExceptionMessage(s1Xdr, "13",
+										InterfaceConstants.UU, exceptionMap);
+							}
+							// step 4
+							else if ("8".equals(s1Xdr.getRequestCause())) {
+								// step 5
+								this.stepFive(s1Xdr, lteMroSourceList,
+										exceptionMap);
+							} else {
+								// step 6
+								return new S1mmeExceptionMessage(s1Xdr,
+										s1Xdr.getFailureCause(),
+										InterfaceConstants.S1AP, exceptionMap);
+							}
+						}
+					}
+				}
+			}
+		} else {
+			return new S1mmeExceptionMessage(s1Xdr, s1Xdr.getFailureCause(),
+					InterfaceConstants.S1AP, exceptionMap);
+		}
+		return s1mmeExceptionMessage;
+	}
+
+	public S1mmeExceptionMessage stepFive(S1mmeXdr s1Xdr,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> exceptionMap) {
+		List<LteMroSource> ueMrList = new ArrayList<LteMroSource>();
+		if (lteMroSourceList != null) {
+			for (LteMroSource lteMroSource : lteMroSourceList) {
+				if (lteMroSource.getVid() == 1
+						&& lteMroSource.getStarttime() >= s1Xdr
+								.getProcedureStartTime() - 20000
+						&& lteMroSource.getStarttime() <= s1Xdr
+								.getProcedureStartTime() + 1000) {
+					if (TablesConstants.TABLE_UE_MR_XDR_FLAG
+							.equals(lteMroSource.getMrname())) {
+						ueMrList.add(lteMroSource);
+					}
+				}
+			}
+			for (LteMroSource ueMr : ueMrList) {
+				if (ueMr != null) {
+					LteMroSource miniMr = this.getMinKpi(s1Xdr, ueMrList);
+					if (miniMr.getKpi1() < 31) {
+						return new S1mmeExceptionMessage(s1Xdr, "1",
+								InterfaceConstants.UU, exceptionMap);
+					} else {
+						return new S1mmeExceptionMessage(s1Xdr,
+								s1Xdr.getFailureCause(),
+								InterfaceConstants.S1AP, exceptionMap);
+					}
+				}
+			}
+		} else {
+			return new S1mmeExceptionMessage(s1Xdr, s1Xdr.getFailureCause(),
+					InterfaceConstants.S1AP, exceptionMap);
+		}
+		return s1mmeExceptionMessage;
+	}
+
+	public LteMroSource getMinKpi(S1mmeXdr s1Xdr,
+			List<LteMroSource> lteMroSourceList) {
+		Long minTime = Long.MAX_VALUE;
+		Long curTime = 0L;
+		Map<Long, LteMroSource> LteMroSourceMap = new HashMap<Long, LteMroSource>();
+		for (LteMroSource lteMroSource : lteMroSourceList) {
+			curTime = Math.abs(s1Xdr.getProcedureStartTime()
+					- lteMroSource.getMeatime());
+			if (minTime > curTime) {
+				minTime = curTime;
+			}
+			LteMroSourceMap.put(minTime, lteMroSource);
+		}
+		return LteMroSourceMap.get(minTime);
+	}
+}

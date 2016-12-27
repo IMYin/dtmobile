@@ -1,0 +1,187 @@
+package cn.com.dtmobile.hadoop.biz.exception.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import cn.com.dtmobile.hadoop.biz.exception.constants.ExceptionConstnts;
+import cn.com.dtmobile.hadoop.biz.exception.constants.InterfaceConstants;
+import cn.com.dtmobile.hadoop.biz.exception.model.S1mmeExceptionMessage;
+import cn.com.dtmobile.hadoop.constants.TablesConstants;
+import cn.com.dtmobile.hadoop.model.LteMroSource;
+import cn.com.dtmobile.hadoop.model.S1mmeXdr;
+import cn.com.dtmobile.hadoop.model.UuXdr;
+
+public class AttachFailAnalyService {
+	S1mmeExceptionMessage s1mmeExceptionMessage = null;
+
+	public List<S1mmeExceptionMessage> attachFailAnalyService(
+			List<S1mmeXdr> s1XdrList, List<UuXdr> uuXdrList,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> cellXdrMap, Map<String, String> exceptionMap) {
+		List<S1mmeExceptionMessage> s1mmeExceptionMessageList = new ArrayList<S1mmeExceptionMessage>();
+		// Enter the interface 13
+		if (s1XdrList.size() > 0) {
+
+			for (S1mmeXdr s1Xdr : s1XdrList) {
+				if (s1Xdr.getCommXdr().getInterfaces() == 5) {
+					// step 1
+					s1mmeExceptionMessage = this.stepOne(s1Xdr,
+							lteMroSourceList, cellXdrMap, uuXdrList,
+							exceptionMap);
+					if (s1mmeExceptionMessage != null) {
+						s1mmeExceptionMessageList.add(s1mmeExceptionMessage);
+						continue;
+					}
+				} else {
+					s1mmeExceptionMessageList.add(new S1mmeExceptionMessage(
+							s1Xdr, s1Xdr.getFailureCause(),
+							InterfaceConstants.NAS, exceptionMap));
+				}
+			}
+		}
+		return s1mmeExceptionMessageList;
+	}
+
+	public S1mmeExceptionMessage stepOne(S1mmeXdr s1Xdr,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> cellXdrMap, List<UuXdr> uuList,
+			Map<String, String> exceptionMap) {
+		if (ExceptionConstnts.ATTACH_FAIL == s1Xdr.getEtype()) {
+			if ("1".equals(s1Xdr.getProcedureStatus())) {
+				return new S1mmeExceptionMessage(s1Xdr,
+						s1Xdr.getFailureCause(), InterfaceConstants.NAS,
+						exceptionMap);
+			} else {
+				// step 2
+				int times = this.times(s1Xdr, uuList, exceptionMap);
+				if (times > 3) {
+					return new S1mmeExceptionMessage(s1Xdr, "65535",
+							InterfaceConstants.S1AP, exceptionMap);
+				} else {
+					// step 3
+					this.stepThree(s1Xdr, lteMroSourceList, cellXdrMap,
+							exceptionMap);
+				}
+			}
+		}
+		return null;
+	}
+
+	public int times(S1mmeXdr s1Xdr, List<UuXdr> uuList,
+			Map<String, String> exceptionMap) {
+		int times = 0;
+		for (UuXdr uuXdr : uuList) {
+			if (uuXdr.getProcedureStartTime() >= s1Xdr.getProcedureStartTime() - 1000
+					&& uuXdr.getProcedureStartTime() <= s1Xdr
+							.getProcedureStartTime() + 5000) {
+				if ("13".equals(uuXdr.getProcedureType())
+						&& uuXdr.getCellId().equals(s1Xdr.getCellId())) {
+					times++;
+				}
+			}
+		}
+		return times;
+	}
+
+	public S1mmeExceptionMessage stepThree(S1mmeXdr s1Xdr,
+			List<LteMroSource> lteMroSourceList,
+			Map<String, String> cellXdrMap, Map<String, String> exceptionMap) {
+		List<LteMroSource> ueMr1List = new ArrayList<LteMroSource>();
+		List<LteMroSource> ueMr6List = new ArrayList<LteMroSource>();
+		if (lteMroSourceList != null) {
+			for (LteMroSource lteMroSource : lteMroSourceList) {
+				if (lteMroSource.getStarttime() >= s1Xdr
+						.getProcedureStartTime() - 20000
+						&& lteMroSource.getStarttime() <= s1Xdr
+								.getProcedureStartTime() + 1000
+						&& lteMroSource.getCellid().equals(s1Xdr.getOtherEci())
+						&& lteMroSource.getVid() == 1) {
+					if (TablesConstants.TABLE_UE_MR_XDR_FLAG
+							.equals(lteMroSource.getMrname())) {
+						if (lteMroSource.getKpi1() != 0) {
+							ueMr1List.add(lteMroSource);
+						} else if (lteMroSource.getKpi6() != 0) {
+							ueMr6List.add(lteMroSource);
+						}
+					}
+				}
+			}
+
+			if (ueMr1List.size() > 0
+					&& this.getMinKpi(s1Xdr, ueMr1List).getKpi1() < 31) {
+				return new S1mmeExceptionMessage(s1Xdr, "1",
+						InterfaceConstants.UU, exceptionMap);
+			} else {
+				double avg = this.getAvgKpi(s1Xdr, cellXdrMap);
+				if (avg > 111) {
+					return new S1mmeExceptionMessage(s1Xdr, "2",
+							InterfaceConstants.UU, exceptionMap);
+				} else {
+					if (ueMr6List.size() > 0) {
+						LteMroSource ue6MrSource = this.getMinKpi(s1Xdr,
+								ueMr6List);
+						if (ue6MrSource.getKpi6() < 25) {
+							if (ue6MrSource.getKpi8() >= 22) {
+								return new S1mmeExceptionMessage(s1Xdr, "3",
+										InterfaceConstants.UU, exceptionMap);
+							} else if (ue6MrSource.getKpi8() < 22) {
+								return new S1mmeExceptionMessage(s1Xdr, "4",
+										InterfaceConstants.UU, exceptionMap);
+							}
+						} else {
+							return new S1mmeExceptionMessage(s1Xdr,
+									s1Xdr.getFailureCause(),
+									InterfaceConstants.NAS, exceptionMap);
+						}
+					}
+				}
+			}
+		} else {
+			return new S1mmeExceptionMessage(s1Xdr, s1Xdr.getFailureCause(),
+					InterfaceConstants.NAS, exceptionMap);
+		}
+		return s1mmeExceptionMessage;
+	}
+
+	public LteMroSource getMinKpi(S1mmeXdr s1Xdr,
+			List<LteMroSource> lteMroSourceList) {
+		Long minTime = Long.MAX_VALUE;
+		Long curTime = 0L;
+		Map<Long, LteMroSource> LteMroSourceMap = new HashMap<Long, LteMroSource>();
+		for (LteMroSource lteMroSource : lteMroSourceList) {
+			curTime = Math.abs(s1Xdr.getProcedureStartTime()
+					- lteMroSource.getMeatime());
+			if (minTime > curTime) {
+				minTime = curTime;
+			}
+			LteMroSourceMap.put(minTime, lteMroSource);
+		}
+		return LteMroSourceMap.get(minTime);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public Double getAvgKpi(S1mmeXdr s1Xdr, Map<String, String> cellXdrMap) {
+		Long minTime = Long.MAX_VALUE;
+		Long curTime = 0L;
+		Iterator iter = cellXdrMap.entrySet().iterator();
+		Double kpiAvg = 0.0;
+		while (iter.hasNext()) {
+			Map.Entry entry = (Map.Entry) iter.next();
+			if (entry.getKey().equals(s1Xdr.getOtherEci())) {
+				curTime = Math
+						.abs(s1Xdr.getProcedureStartTime()
+								- Long.valueOf(entry.getValue().toString()
+										.split(",")[0]));
+				if (minTime > curTime) {
+					minTime = curTime;
+					kpiAvg = Double.valueOf(entry.getValue().toString()
+							.split(",")[1]);
+				}
+			}
+		}
+		return kpiAvg;
+	}
+}

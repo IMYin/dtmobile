@@ -1,0 +1,74 @@
+#!/bin/bash
+
+mypath="$(cd "$(dirname "$0")"; pwd)"
+
+jar_file=""
+package_name="cn.com.dtmobile.hadoop.biz.exception.job.ExceptionCommonJob"
+
+today=`date +%Y%m%d`
+
+# Tables
+uu="/user/hive/warehouse/ddl.db/tb_xdr_ifc_uu_etype"
+lte_mro_source="/user/hive/warehouse/ddl.db/lte_mro_source_etype"
+mw="/user/hive/warehouse/ddl.db/tb_xdr_ifc_mw_etype"
+s1="hdfs://nameservice1/ws/detail/s1mme_orgn"
+sv="hdfs://nameservice1/ws/detail/volte_sv"
+x2="/user/hive/warehouse/ddl.db/tb_xdr_ifc_x2_etype"
+gx="/user/hive/warehouse/ddl.db/tb_xdr_ifc_gxrx_etype"
+excep="/user/hive/warehouse/ddl.db/gongcan/EXCEPTIONMAP.tsv"
+cellMR="/user/hive/warehouse/ddl.db/gongcan/cellMR.csv"
+ltecell="/user/hive/warehouse/ddl.db/gongcan/ltecell.txt"
+t_process="/user/hive/warehouse/ddl.db/gongcan/profess.txt"
+exception_out="user/hive/warehouse/exception_analysis"
+partition_name="p1_day"
+# Exception analysis.
+
+# If the table has partitions.
+hadoop jar ${jar_file} ${package_name} \
+${uu}/${partition_name}=\'$today\' \
+${lte_mro_source}/${partition_name}=\'$today\' \
+${mw}/${partition_name}=\'$today\' \
+${s1}/${partition_name}=\'$today\' \
+${sv}/${partition_name}=\'$today\' \
+${x2}/${partition_name}=\'$today\' \
+${gx}/${partition_name}=\'$today\' \
+${exception_out}/${month}/${day}/${hour}
+${excep} \
+${cellMR} \
+${ltecell} \
+${t_process} \
+
+
+# If the table has no partition.
+#hadoop jar ${jar_file} ${package_name} \
+#${uu} \
+#${lte_mro_source} \
+#${mw} \
+#${s1} \
+#${sv} \
+#${x2} \
+#${gx} \
+#${exception_out} \
+#${excep} \
+#${cellMR} \
+#${ltecell} \
+#${t_process}
+
+
+
+#####################################################################################
+# Process the ue, to fillback TA and AOA.
+#hadoop jar ${jar_file} cn.com.dtmobile.hadoop.biz.ueFillBack.job.UeMrSortJob $UE_TABLE $UE_OUTPUT
+
+# Process S1mme.
+# To delete PARENTXDRID and append etype.
+#hadoop jar ${jar_file} cn.com.dtmobile.hadoop.biz.ueFillBack.job.S1mmeProcessJob $S1MME_TABLE $S1MME_OUTPUT
+
+# Process UU.
+# To delete PARENTXDRID and append etype.
+#hadoop jar ${jar_file} cn.com.dtmobile.hadoop.biz.ueFillBack.job.UuProcessJob $UU_TABLE $UU_OUTPUT
+
+# Process X2.
+# To delete PARENTXDRID and append etype.
+#hadoop jar ${jar_file} cn.com.dtmobile.hadoop.biz.ueFillBack.job.X2ProcessJob $X2_TABLE $X2_OUTPUT
+

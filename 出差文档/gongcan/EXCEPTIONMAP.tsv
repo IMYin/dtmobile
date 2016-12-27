@@ -1,0 +1,165 @@
+EMM;NAS;5;IMEI not accepted;UE;UE;禁止的IMEI
+EMM;NAS;6;Illegal ME;UE;UE;非法ME
+EMM;NAS;7;EPS services not allowed;UE;UE;不允许的EPS服务
+EMM;NAS;8;EPS services and non-EPS services not allowed;UE;UE;不允许的EPS服务及非EPS服务
+EMM;NAS;9;UE identity cannot be derived by the network;UE;UE;网络无法获得终端标识
+EMM;NAS;10;Implicitly detached;MME;MME，MME Code;隐式去附着
+EMM;NAS;11;PLMN not allowed;UE;UE;不允许的PLMN
+EMM;NAS;12;Tracking Area not allowed;UE;UE;不允许的TA
+EMM;NAS;13;Roaming not allowed in this tracking area;UE;UE;此TA不允许漫游
+EMM;NAS;14;EPS services not allowed in this PLMN;UE;UE;本PLMN下不允许此EPS服务
+EMM;NAS;15;No Suitable Cells In tracking area;UE;UE;TA下无可用小区
+EMM;NAS;16;MSC temporarily not reachable;MME;MME，MME Code;MSC暂时不可达
+EMM;NAS;17;Network failure;MME;MME，MME Code;网络失败-EMM
+EMM;NAS;18;CS domain not available;MME;MME，MME Code;CS域不可用
+EMM;NAS;2;IMSI unknown in HSS;UE;UE;未知IMSI-HSS
+EMM;NAS;3;Illegal UE;UE;UE;非法终端
+EMM;NAS;19;ESM failure;MME;MME，MME Code;ESM失败
+EMM;NAS;20;MAC failure;MME;MME，MME Code;MAC失败
+EMM;NAS;21;Synch failure;MME;MME，MME Code;同步失败
+EMM;NAS;22;Congestion;MME;MME，MME Code;拥塞
+EMM;NAS;23;UE security capabilities mismatch;UE;UE;终端安全能力不匹配
+EMM;NAS;24;Security mode rejected, unspecified;UE;UE;安全模式拒绝
+EMM;NAS;25;Not authorized for this CSG;UE;UE;此CSG未授权
+EMM;NAS;26;Non-EPS authentication unacceptable;UE;UE;不允许非EPS认证
+EMM;NAS;35;Requested service option not authorized in this PLMN;UE;UE;请求的服务选项在此PLMN未认证
+EMM;NAS;39;CS service temporarily not available;MME;MME，MME Code;CS服务暂时不可用
+EMM;NAS;40;No EPS bearer context activated;UE;UE;未EPS承载已激活
+EMM;NAS;95;Semantically incorrect message;UE;UE;消息语义错误-EMM
+EMM;NAS;96;Invalid mandatory information;UE;UE;无效的必选字段-EMM
+EMM;NAS;97;Message type non-existent or not implemented;UE;UE;消息类型不存在或未执行-EMM
+EMM;NAS;98;Message type not compatible with the protocol state;MME;MME，MME Code;消息类型与协议不兼容-EMM
+EMM;NAS;99;Information element non-existent or not implemented;MME;MME，MME Code;信息元素不存在或未执行-EMM
+EMM;NAS;100;Conditional IE error;UE;UE;条件IE错误-EMM
+EMM;NAS;101;Message not compatible with the protocol state;UE;UE;消息与协议不兼容-EMM
+EMM;NAS;111;Protocol error, unspecified;MME;MME，MME Code;未定义的协议错误-EMM
+ESM;NAS;264;Operator Determined Barring;MME;MME，MME Code;运营商设置禁止
+ESM;NAS;282;Insufficient resources;MME;MME，MME Code;资源不足
+ESM;NAS;283;Missing or unknown APN;UE;UE;缺少或未知APN
+ESM;NAS;284;Unknown PDN type;UE;UE;未知的PDN类型
+ESM;NAS;285;User authentication failed;MME;MME，MME Code;用户认证失败
+ESM;NAS;286;Request rejected by Serving GW or PDN GW;MME;MME，MME Code;请求被SGW或PGW拒绝
+ESM;NAS;287;Request rejected, unspecified;MME;MME，MME Code;原因未知的请求被拒绝
+ESM;NAS;288;Service option not supported;UE;UE;服务选项不支持
+ESM;NAS;289;Requested service option not subscribed;UE;UE;请求的服务选项未签约
+ESM;NAS;290;Service option temporarily out of order;MME;MME，MME Code;服务选项暂时不可用
+ESM;NAS;291;PTI already in use;UE;UE;PTI已经在使用
+ESM;NAS;292;Regular deactivation;UE;UE;正常去激活
+ESM;NAS;293;EPS QoS not accepted;UE;UE;EPS QoS不支持
+ESM;NAS;294;Network failure;MME;MME，MME Code;网络失败-ESM
+ESM;NAS;295;Reactivation requested;UE;UE;需要重新激活
+ESM;NAS;297;Semantic error in the TFT operation;UE;UE;TFT语义错误
+ESM;NAS;298;Syntactical error in the TFT operation;UE;UE;TFT句法错误
+ESM;NAS;299;Invalid EPS bearer identity;MME;MME，MME Code;无效的EPS承载标识
+ESM;NAS;300;Semantic errors in packet filter(s);UE;UE;包过滤语义错误
+ESM;NAS;301;Syntactical errors in packet filter(s);UE;UE;包过滤句法错误
+ESM;NAS;302;Unused (see NOTE 2);;;预留
+ESM;NAS;303;PTI mismatch;UE;UE;PTI不匹配
+ESM;NAS;305;Last PDN disconnection not allowed;MME;MME，MME Code;不允许最后一个PDN连接去激活
+ESM;NAS;306;PDN type IPv4 only allowed;UE;UE;仅Pv4 PDN类型
+ESM;NAS;307;PDN type IPv6 only allowed;UE;UE;仅IPv6 PDN类型
+ESM;NAS;308;Single address bearers only allowed;MME;MME，MME Code;只允许单个地址承载
+ESM;NAS;309;ESM information not received;UE;UE;未收到ESM信息
+ESM;NAS;310;PDN connection does not exist;UE;UE;PDN连接不存在
+ESM;NAS;311;Multiple PDN connections for a given APN not allowed;UE;UE;一个APN不允许有多个PDN连接
+ESM;NAS;312;Collision with network initiated request;UE;UE;与网络发起的请求冲突
+ESM;NAS;315;Unsupported QCI value;UE;UE;不支持的QCI值-ESM
+ESM;NAS;316;Bearer handling not supported;UE;UE;不支持的承载操作
+ESM;NAS;322;Requested APN not supported in current RAT and PLMN combination;UE;UE;请求的AP不支持当前的RAT与PLMN组合
+ESM;NAS;337;Invalid PTI value;UE;UE;无效的PTI值
+ESM;NAS;351;Semantically incorrect message;UE;UE;消息语义错误-ESM
+ESM;NAS;352;Invalid mandatory information;UE;UE;无效的必选字段-ESM
+ESM;NAS;353;Message type non-existent or not implemented;MME;MME，MME Code;消息类型不存在或未执行-ESM
+ESM;NAS;354;Message type not compatible with the protocol state;UE;UE;消息类型与协议不兼容-ESM
+ESM;NAS;355;Information element non-existent or not implemented;MME;MME，MME Code;信息元素不存在或未执行-ESM
+ESM;NAS;356;Conditional IE error;UE;UE;条件IE错误-ESM
+ESM;NAS;357;Message not compatible with the protocol state;UE;UE;消息与协议不兼容-ESM
+ESM;NAS;367;Protocol error, unspecified;MME;MME，MME Code;未定义的协议错误-ESM
+ESM;NAS;368;APN restriction value incompatible with active EPS bearer context;UE;UE;APN限制值与EPS承载不相容
+NAS;NAS;;TimeOut;MME;MME，MME Code;超时
+NAS cause;S1AP;512;Normal Release;MME;MME，MME Code;NAS层正常释放
+NAS cause;S1AP;513;Authentication Failure;MME;MME，MME Code;NAS层鉴权失败
+NAS cause;S1AP;514;Detach;MME;MME，MME Code;去附着
+NAS cause;S1AP;515;Unspecified;MME;MME，MME Code;未知原因-NAS
+NAS cause;S1AP;640;CSG Subscription Expiry;MME;MME，MME Code;CSG签约超时
+S1AP;S1AP;;TimeOut;MME;MME，MME Code;超时
+UU;UU;1;弱覆盖;CELL;CELL，Cell ID;弱覆盖
+UU;UU;2;上行干扰;CELL;CELL，Cell ID;上行干扰
+UU;UU;3;上行覆盖受限;CELL;CELL，Cell ID;上行覆盖受限
+UU;UU;4;上行瞬时干扰;CELL;CELL，Cell ID;上行瞬时干扰
+UU;UU;5;上行正常;CELL;CELL，Cell ID;上行正常
+UU;UU;6;TAU更新导致未收到paging消息;CELL;CELL，Cell ID;TAU更新导致未收到paging消息
+UU;UU;8;无线环境差导致下行paging解码失败;CELL;CELL，Cell ID;无线环境差导致下行paging解码失败
+UU;UU;9;终端收到paging消息无响应;UE;UE;终端收到paging消息无响应
+UU;UU;10;TAU与X2切换冲突;CELL;CELL，Cell ID;TAU与X2切换冲突
+UU;UU;11;邻区缺失;CELL;源小区CELL ID_目标小区CELL ID;邻区缺失，网元为源小区和目标小区
+UU;UU;12;未收到重配置完成消息;CELL;CELL，Cell ID;未收到重配置完成消息
+UU;UU;13;由于目标侧导致失败;CELL;CELL，Cell ID;由于目标侧导致失败
+UU;UU;14;弱覆盖伴随切换失败;CELL;CELL，Cell ID;弱覆盖伴随切换失败
+UU;UU;15;目标小区上行干扰;CELL;源小区CELL ID_目标小区CELL ID;目标小区上行干扰
+UU;UU;;TimeOut;CELL;CELL，Cell ID;超时
+SIP;SIP;400;400 (Bad Request);UE;UE;错误请求
+SIP;SIP;401;401 (Unauthorized);UE;UE;终端问题或SIM卡问题
+SIP;SIP;402;402 (Payment Required);UE;UE;余额不足
+SIP;SIP;403;403 (Forbidden);UE;UE;禁止使用
+SIP;SIP;404;404 (Not Found);UE;UE;未知会话
+SIP;SIP;405;405 (Method Not Allowed);UE;UE;类型禁止
+SIP;SIP;406;406 (Not Acceptable);UE;UE;未接受处理
+SIP;SIP;407;407 (Proxy Authentication Required);UE;UE;代理未认证
+SIP;SIP;408;408 (Request Timeout);UE;UE;请求超时
+SIP;SIP;410;410 (Gone);UE;UE;处理丢失
+SIP;SIP;412;412 (Conditional Request Failed);UE;UE;条件不足
+SIP;SIP;413;413 (Request Entity Too Large);UE;UE;请求超长
+SIP;SIP;414;414 (Request-URI Too Large);UE;UE;URI超长
+SIP;SIP;415;415 (Unsupported Media Type);UE;UE;媒体类型不支持
+SIP;SIP;416;416 (Unsupported URI Scheme);UE;UE;URI格式不支持
+SIP;SIP;417;417 (Unknown Resource Priority);UE;UE;未知资源优先级
+SIP;SIP;420;420 (Bad Extension);UE;UE;错误的扩展
+SIP;SIP;421;421 (Extension Required);UE;UE;需要扩展
+SIP;SIP;422;422 (Session Interval Too Small);UE;UE;会话频繁
+SIP;SIP;423;423 (Interval Too Brief);UE;UE;间隔太短
+SIP;SIP;424;424 (Bad Location Information);UE;UE;位置信息错误
+SIP;SIP;429;429 (Provide Referrer Identity);UE;UE;提供关联身份
+SIP;SIP;430;430 (Flow Failed);UE;UE;流程错误
+SIP;SIP;433;433 (Anonymity Disallowed);UE;UE;匿名拒绝
+SIP;SIP;439;439 (First Hop Lacks Outbound Support);UE;UE;代理跳转错误
+SIP;SIP;440;440 (Max Breadth Exceeded);UE;UE;超过最大心跳
+SIP;SIP;469;469 (Bad INFO Package);UE;UE;INFO包错误
+SIP;SIP;470;470 (Consent Needed);UE;UE;需要同步
+SIP;SIP;480;480 (Temporarily Unavailable);UE;UE;暂时不可用
+SIP;SIP;481;481 (Call/Transaction Does Not Exist);UE;UE;事务不存在
+SIP;SIP;482;482 (Loop Detected);UE;UE;环路
+SIP;SIP;483;483 (Too Many Hops);UE;UE;跳转过多
+SIP;SIP;484;484 (Address Incomplete);UE;UE;地址不完整
+SIP;SIP;485;485 (Ambiguous);UE;UE;模糊的
+SIP;SIP;486;486 (Busy Here);UE;UE;处理忙
+SIP;SIP;487;487 (Request Terminated);UE;UE;请求结束
+SIP;SIP;488;488 (Not Acceptable Here);UE;UE;不恰当请求
+SIP;SIP;489;489 (Bad Event);UE;UE;异常事件
+SIP;SIP;491;491 (Request Pending);UE;UE;请求挂起
+SIP;SIP;493;493 (Undecipherable);UE;UE;无法解析
+SIP;SIP;494;494 (Security Agreement Required);UE;UE;需要安全协商
+SIP;SIP;500;500 (Internal Server Error);IMS;IMS，PCSCF-IP;服务器内部错误
+SIP;SIP;501;501 (Not Implemented);IMS;IMS，PCSCF-IP;未执行
+SIP;SIP;502;502 (Bad Gateway);IMS;IMS，PCSCF-IP;错误的网关
+SIP;SIP;503;503 (Service Unavailable);IMS;IMS，PCSCF-IP;业务不可用
+SIP;SIP;504;504 (Server Time-out);IMS;IMS，PCSCF-IP;服务器超时
+SIP;SIP;505;505 (Version not supported);IMS;IMS，PCSCF-IP;版本不支持
+SIP;SIP;513;513 (Message Too Large);IMS;IMS，PCSCF-IP;信息太长
+SIP;SIP;580;580 (Precondition Failure);IMS;IMS，PCSCF-IP;预处理失败
+SIP;SIP;600;600 (Busy Everywhere);IMS;IMS，PCSCF-IP;全局忙
+SIP;SIP;603;603 (Decline);IMS;IMS，PCSCF-IP;全局拒绝
+SIP;SIP;604;604 (Does Not Exist Anywhere);IMS;IMS，PCSCF-IP;全局不存在
+SIP;SIP;606;606 (Not Acceptable);IMS;IMS，PCSCF-IP;全局不接受
+X2;X2;;TimeOut;源CELL;源CELL, CELLID;超时
+SV;SV;0;Reserved. Shall not be sent and if received the Cause shall be treated as an invalid IE;保留;保留;保留
+SV;SV;1;Unspecified;MSC;MSC，MSC-IP;未知
+SV;SV;2;Handover/Relocation cancelled by source system ;MME;MME，MME-IP;切换被源系统取消
+SV;SV;3;Handover /Relocation Failure with Target system;MSC;MSC，MSC-IP;目标系统上切换失败
+SV;SV;4;Handover/Relocation Target not allowed;MSC;MSC，MSC-IP;切换目标不允许
+SV;SV;5;Unknown Target ID;MSC;MSC，MSC-IP;未知目标标识
+SV;SV;6;Target Cell not available;MSC;MSC，MSC-IP;目标小区不可用
+SV;SV;7;No Radio Resources Available in Target Cell;MSC;MSC，MSC-IP;目标小区上资源不足
+SV;SV;8;Failure in Radio Interface Procedure;MSC;MSC，MSC-IP;无线失败处理失败
+SV;SV;9;Permanent session leg establishment error;MSC;MSC，MSC-IP;永久的会话建立错误
+SV;SV;10;Temporary session leg establishment error;MSC;MSC，MSC-IP;暂时的会话建立错误
